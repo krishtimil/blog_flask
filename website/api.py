@@ -12,7 +12,8 @@ class PostAPI(Resource):
     @login_required
     def post(self):
         args = parser.parse_args()
-        post = Post(title=args['title'], content=args['content'], author_id=current_user.id)
+        post = Post(title=args['title'],
+                    content=args['content'], author_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         return {'id': post.id, 'title': post.title, 'content': post.content, 'date_created': post.date_created.isoformat(), 'author': post.author.username}
@@ -46,6 +47,7 @@ class PostAPI(Resource):
         db.session.delete(post)
         db.session.commit()
         return {'message': 'Post deleted successfully'}
+
     def get(self, post_id=None):
         if post_id == None:
             posts = Post.query.all()
@@ -58,7 +60,8 @@ class PostAPI(Resource):
     @login_required
     def post(self):
         args = parser.parse_args()
-        post = Post(title=args['title'], content=args['content'], author=current_user().id)
+        post = Post(title=args['title'],
+                    content=args['content'], author=current_user().id)
         db.session.add(post)
         db.session.commit()
         return {'id': post.id, 'title': post.title, 'content': post.content}
@@ -73,7 +76,7 @@ class PostAPI(Resource):
         post.content = args['content']
         db.session.commit()
         return {'id': post.id, 'title': post.title, 'content': post.content}
-    
+
     @login_required
     def delete(self, post_id):
         post = Post.query.get(post_id)
@@ -82,7 +85,3 @@ class PostAPI(Resource):
         db.session.delete(post)
         db.session.commit()
         return {'message': 'Post deleted successfully'}
-
-
-
-

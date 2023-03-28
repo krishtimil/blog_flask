@@ -69,7 +69,7 @@ def user_posts(username):
         return redirect(url_for('views.home'))
     
     posts = Post.query.filter_by(author=user.id).all()
-    return render_template("user_posts.html", user=current_user, posts=posts, username=username)
+    return render_template("posts.html", user=current_user, posts=posts, username=username)
 
 @views.route('/contact')
 def contact():
@@ -78,3 +78,8 @@ def contact():
 @views.route('/about')
 def about():
     return render_template("about.html", user=current_user)
+
+@views.route('/posts/<int:post_id>')
+def post_detail(post_id):
+    post = Post.query.filter_by(id=post_id).first()
+    return render_template('post_detail.html', post=post, user=current_user)
